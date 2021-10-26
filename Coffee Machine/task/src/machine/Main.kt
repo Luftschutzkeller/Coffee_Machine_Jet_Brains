@@ -1,77 +1,75 @@
 package machine
 
-import java.util.*
-
-var money = 550
 var water = 400
 var milk = 540
 var beans = 120
 var cups = 9
+var money = 550
 
-fun main(args: Array<String>) {
-    var choice = 0
-    machineHas()
-    print("Write action (buy, fill, take): ")
-    val scan = Scanner(System.`in`)
-    val action = scan.nextLine()
-    println()
-    when (action) {
-        "buy" -> {
-            print("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ")
-            choice = scan.nextInt()
-            println()
-            when (choice) {
-                1 -> {
-                    water -= 250
-                    beans -= 16
-                    money += 4
-                    cups -= 1
-                }
-                2 -> {
-                    water -= 350
-                    milk -= 75
-                    beans -= 20
-                    money += 7
-                    cups -= 1
-                }
-                3 -> {
-                    water -= 200
-                    milk -= 100
-                    beans -= 12
-                    money += 6
-                    cups -= 1
-                }
-            }
-            machineHas()
+fun main() {
+    do {
+        println("\nWrite action (buy, fill, take, remaining, exit)")
+        var input = readLine()!!
+
+        when (input) {
+            "buy" -> buy()
+            "fill" -> fill()
+            "take" -> take()
+            "remaining" -> print()
         }
-        "fill" -> {
-            print("Write how many ml of water do you want to add: ")
-            water += scan.nextInt()
-            println()
-            print("Write how many ml of milk do you want to add: ")
-            milk += scan.nextInt()
-            println()
-            print("Write how many grams of coffee beans do you want to add: ")
-            beans += scan.nextInt()
-            println()
-            print("Write how many disposable cups of coffee do you want to add: ")
-            cups += scan.nextInt()
-            println()
-            machineHas()
-        }
-        "take" -> {
-            println("I gave you $$money")
-            money = 0
-            machineHas()
-        }
+    } while (input != "exit")
+}
+
+fun buy() {
+    println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:")
+
+    when (readLine()!!) {
+        "1" -> makeCoffee(250, 0, 16, 4)
+        "2" -> makeCoffee(350, 75, 20, 7)
+        "3" -> makeCoffee(200, 100, 12, 6)
     }
 }
 
-fun machineHas() {
-    println("The coffee machine has:")
-    println("$water of water")
-    println("$milk of milk")
-    println("$beans of beans")
-    println("$cups of disposable cups")
-    println("$money money")
+fun makeCoffee(waterNeed: Int, milkNeed: Int, beansNeed: Int, price: Int) {
+    if (water >= waterNeed &&
+        milk >= milkNeed &&
+        beans >= beansNeed &&
+        cups >= 1) {
+        println("I have enough resources, making you a coffee!")
+        water -= waterNeed
+        milk -= milkNeed
+        beans -= beansNeed
+        money += price
+        cups--
+    } else {
+        println("Sorry, not enough ingredients!")
+    }
+}
+
+fun fill() {
+    println("Write how many ml of water do you want to add:")
+    water += readLine()!!.toInt()
+
+    println("Write how many ml of milk do you want to add:")
+    milk += readLine()!!.toInt()
+
+    println("Write how many grams of coffee beans do you want to add:")
+    beans += readLine()!!.toInt()
+
+    println("Write how many disposable cups of coffee do you want to add:")
+    cups += readLine()!!.toInt()
+}
+
+fun take() {
+    println("I gave you $$money")
+    money = 0
+}
+
+fun print() {
+    println("""The coffee machine has:
+$water of water
+$milk of milk
+$beans of coffee beans
+$cups of disposable cups
+$money of money""")
 }
