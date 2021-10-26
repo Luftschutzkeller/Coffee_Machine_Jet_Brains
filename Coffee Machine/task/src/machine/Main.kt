@@ -1,33 +1,86 @@
 package machine
 
-fun main() {
+fun takeMoney() {
+    val moneyTotal = 550
+    println("I gave you $$moneyTotal")
+    println("The coffee machine has:\n" +
+            "400 of water\n" +
+            "540 of milk\n" +
+            "120 of coffee beans\n" +
+            "9 of disposable cups\n" +
+            "0 of money")
+}
 
-    val water = readLine()!!.toInt()
-    println("Write how many ml of water the coffee machine has: $water")
-    val milk = readLine()!!.toInt()
-    println("Write how many ml of milk the coffee machine has: $milk")
-    val beans = readLine()!!.toInt()
-    println("Write how many grams of coffee beans the coffee machine has: $beans")
-    val cups = readLine()!!.toInt()
-    println("Write how many cups of coffee you will need: $cups")
-    val a = water / 200
-    val b = milk / 50
-    val c = beans / 15
-    var amount = 0
-    amount += if ((b in c..a) || (a in c..b)) {
-        c
-    } else if ((c in b..a) || (a in b..c) ){
-        b
-    } else{
-        a
+fun fill() {
+    println("Write how many ml of water do you want to add: ")
+    val waterAdd = readLine()!!.toInt()
+    println("Write how many ml of milk do you want to add: ")
+    val milkAdd = readLine()!!.toInt()
+    println("Write how many grams of coffee beans do you want to add: ")
+    val beansAdd = readLine()!!.toInt()
+    println("Write how many disposable cups of coffee do you want to add: ")
+    val cupsAdd = readLine()!!.toInt()
+    val waterTotal = 400 + waterAdd
+    val milkTotal = 540 + milkAdd
+    val beansTotal = 120 + beansAdd
+    val cupsTotal = 9 + cupsAdd
+    println("The coffee machine has:\n" +
+            "$waterTotal of water\n" +
+            "$milkTotal of milk\n" +
+            "$beansTotal of coffee beans\n" +
+            "$cupsTotal of disposable cups\n" +
+            "550 of money")
+}
+
+fun buy() {
+    val waterTotal = 400
+    val milkTotal = 540
+    val beansTotal = 120
+    val cupsTotal = 9
+    val moneyTotal = 550
+    println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ")
+    if (readLine()!!.toInt() == 1) {
+        println("The coffee machine has:\n" +
+                "${waterTotal - 250} of water\n" +
+                "$milkTotal of milk\n" +
+                "${beansTotal - 16} of coffee beans\n" +
+                "${cupsTotal - 1} of disposable cups\n" +
+                "554 of money")
+    } else if (readLine()!!.toInt() == 2) {
+        println("The coffee machine has:\n" +
+                "${waterTotal - 350} of water\n" +
+                "${milkTotal - 75} of milk\n" +
+                "${beansTotal - 20} of coffee beans\n" +
+                "${cupsTotal - 1} of disposable cups\n" +
+                "557 of money")
+    } else if (readLine()!!.toInt() == 3) {
+        println("The coffee machine has:\n" +
+                "${waterTotal - 200} of water\n" +
+                "${milkTotal - 100} of milk\n" +
+                "${beansTotal - 12} of coffee beans\n" +
+                "${cupsTotal - 1} of disposable cups\n" +
+                "556 of money")
+    } else {
+        println("wrong input")
     }
 
-    val min: Int = if (a <= b && a <= c) {a} else if (b <= c && b <= a) {b} else {c}
-    if (amount == cups) {
-        println("Yes, I can make that amount of coffee")
-    } else if (amount > cups) {
-        println("Yes, I can make that amount of coffee (and even ${amount - cups} more than that)")
-    } else if (amount < cups) {
-        println("No, I can make only $min cups of coffee")
+}
+
+fun main() {
+    println(
+        "The coffee machine has:\n" +
+                "400 of water\n" +
+                "540 of milk\n" +
+                "120 of coffee beans\n" +
+                "9 of disposable cups\n" +
+                "550 of money"
+    )
+
+    println("Write action (buy, fill, take): ")
+    when (readLine()!!) {
+        "buy" -> buy()
+        "fill" -> fill()
+        "take" -> takeMoney()
+        else -> println("wrong input")
     }
 }
